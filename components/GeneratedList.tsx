@@ -64,14 +64,16 @@ export default function GeneratedList({ items }: { items: GeneratedItem[] }): JS
                     ))}
                 </ul>
             </div>
-            <div className="mt-6">
-                <a
-                    href="#"
-                    className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
-                >
-                    View all
-                </a>
-            </div>
+            {/* if item is not empty */}
+            {items.length > 0 && (
+                <div className="mt-6">
+                    <a
+                        href="#"
+                        className="w-full flex justify-center items-center px-4 py-2 border border-gray-300 shadow-sm text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50"
+                    >
+                        View all
+                    </a>
+                </div>)}
         </div>
     )
 }
