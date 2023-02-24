@@ -4,6 +4,113 @@ import Image from 'next/image'
 import { useCallback, useState } from 'react'
 import GeneratedList, { GeneratedItem } from '../components/GeneratedList'
 
+
+const subjects = [
+  "Artificial Intelligence",
+  "Data Science",
+  "Cybersecurity",
+  "Computer Networks",
+  "Computer Vision",
+  "Human-Computer Interaction",
+  "Information Retrieval",
+  "Machine Learning",
+  "Natural Language Processing",
+  "Software Engineering"
+];
+
+const methods = [
+  "Pemrograman Genetik",
+  "Jaringan Saraf Tiruan",
+  "Sistem Pakar",
+  "Pengolahan Citra",
+  "Pengolahan Bahasa Alami",
+  "Logika Fuzzy",
+  "Metode Analitik",
+  "Pemrosesan Data Besar",
+  "Algoritma Genetika",
+  "Pengenalan Pola"
+];
+
+const objects = [
+  "Sistem Keamanan",
+  "Big Data",
+  "Internet of Things",
+  "Smart City",
+  "Robotika",
+  "Jaringan Sensor Nirkabel",
+  "Pendidikan",
+  "Kesehatan",
+  "Sosial Media",
+  "Pengolahan Audio"
+];
+
+const treatments = [
+  "Optimisasi",
+  "Segmentasi",
+  "Klasifikasi",
+  "Rekomendasi",
+  "Pengujian",
+  "Validasi",
+  "Perbaikan",
+  "Pemodelan",
+  "Pengendalian",
+  "Visualisasi"
+];
+const templates = [
+  "{{Subject}} {{Methods}} untuk {{Object}} menggunakan {{Treatment}}",
+  "Analisis {{Methods}} dalam {{Subject}} untuk {{Object}}",
+  "{{Treatment}} {{Subject}} berbasis {{Methods}} pada {{Object}}",
+  "{{Subject}} {{Methods}} untuk menyelesaikan permasalahan {{Object}} menggunakan {{Treatment}}",
+  "Pengembangan {{Methods}} pada {{Subject}} untuk {{Treatment}} pada {{Object}}",
+  "{{Methods}} adaptif berbasis {{Subject}} pada {{Object}} dengan {{Treatment}}",
+  "Penentuan kelayakan {{Methods}} pada {{Subject}} dalam penanganan {{Object}} menggunakan {{Treatment}}",
+  "Pemodelan dan analisis {{Methods}} untuk {{Treatment}} pada {{Object}} berbasis {{Subject}}",
+  "Perbaikan kinerja {{Methods}} pada {{Object}} dengan {{Treatment}} berdasarkan {{Subject}}",
+  "{{Methods}} berbasis {{Subject}} untuk deteksi dan penghapusan {{Object}} menggunakan {{Treatment}}",
+  "Analisis perbandingan {{Methods}} untuk {{Object}} berdasarkan {{Subject}}",
+  "{{Methods}} berbasis {{Subject}} untuk meningkatkan keamanan pada {{Object}} menggunakan {{Treatment}}",
+  "Penerapan {{Methods}} pada {{Subject}} untuk meminimalkan kerugian pada {{Object}} dengan {{Treatment}}",
+  "Pengoptimalan {{Methods}} pada {{Object}} menggunakan {{Treatment}} berdasarkan {{Subject}}",
+  "{{Methods}} berbasis {{Subject}} untuk analisis risiko pada {{Object}} dengan {{Treatment}}",
+  "Penyelesaian masalah {{Object}} menggunakan {{Methods}} pada {{Subject}} dengan {{Treatment}}",
+  "{{Subject}} {{Methods}} untuk memprediksi perubahan pada {{Object}} dengan {{Treatment}}",
+  "{{Methods}} berbasis {{Subject}} untuk meningkatkan efisiensi pada {{Object}} dengan {{Treatment}}",
+  "Perbandingan {{Methods}} pada {{Object}} dengan menggunakan {{Treatment}} berdasarkan {{Subject}}",
+  "{{Methods}} berbasis {{Subject}} untuk identifikasi dan analisis kesalahan pada {{Object}} dengan {{Treatment}}",
+  "Penerapan {{Methods}} pada {{Object}} untuk mengoptimalkan kinerja pada {{Subject}} dengan {{Treatment}}",
+  "{{Subject}} {{Methods}} untuk meningkatkan kualitas pada {{Object}} dengan {{Treatment}}",
+  "Analisis dan pemodelan {{Methods}} pada {{Object}} menggunakan {{Subject}} dan {{Treatment}}",
+  "{{Methods}} berbasis {{Subject}} untuk deteksi dan perbaikan {{Object}} dengan {{Treatment}}",
+  "Penerapan {{Methods}} pada {{Object}} untuk meningkatkan kinerja pada {{Subject}} dengan {{Treatment}}",
+  "Pengembangan {{Methods}} pada {{Subject}} untuk mengoptimalkan sistem {{Object}} dengan {{Treatment}}",
+  "{{Methods}} berbasis {{Subject}} untuk analisis dan pengendalian kinerja pada {{Object}} dengan {{Treatment}}",
+  "{{Subject}} {{Methods}} untuk identifikasi dan perbaikan masalah pada {{Object}} dengan {{Treatment}}",
+  "Analisis dan pemodelan {{Methods}} pada {{Subject}} untuk meningkatkan keamanan pada {{Object}} dengan {{Treatment}}"
+];
+
+function generateTitle(numTitles: number, subject?: string, method?: string, object?: string, treatment?: string): string[] {
+  const titles: string[] = [];
+
+  for (let i = 0; i < numTitles; i++) {
+    let template = templates[Math.floor(Math.random() * templates.length)]; // randomly select a template
+    if (subject) template = template.replace("{{Subject}}", subject); // use custom subject if provided
+    else template = template.replace("{{Subject}}", subjects[Math.floor(Math.random() * subjects.length)]); // otherwise, randomly select from subjects
+
+    if (method) template = template.replace("{{Methods}}", method); // use custom method if provided
+    else template = template.replace("{{Methods}}", methods[Math.floor(Math.random() * methods.length)]); // otherwise, randomly select from methods
+
+    if (object) template = template.replace("{{Object}}", object); // use custom object if provided
+    else template = template.replace("{{Object}}", objects[Math.floor(Math.random() * objects.length)]); // otherwise, randomly select from objects
+
+    if (treatment) template = template.replace("{{Treatment}}", treatment); // use custom treatment if provided
+    else template = template.replace("{{Treatment}}", treatments[Math.floor(Math.random() * treatments.length)]); // otherwise, randomly select from treatments
+
+    titles.push(template);
+  }
+
+  return titles;
+}
+
 const TitleSeed = [
   "Dampak Siaran Budaya Lokal di TVRI Terhadap Perilaku Khalayak",
   "Efektivitas Bahasa Melayu Dalam Penyampaian Berita Program Televisi Lokal X",
@@ -42,7 +149,7 @@ const Home: NextPage = () => {
   const onClick = useCallback(() => {
     let i = 0;
     // pick 5 random item from titleSeed
-    const randomItems = TitleSeed.sort(() => Math.random() - 0.5).slice(0, 5)
+    const randomItems = generateTitle(5);
     setItems(randomItems.map(title => ({ id: i++, title, preview: '' })))
 
   }, [setItems]);
@@ -113,7 +220,7 @@ const Home: NextPage = () => {
             {/* Card with List of generated Words */}
 
             <div className="bg-white mt-2 py-4 px-4 shadow sm:rounded-lg sm:px-10">
-              <GeneratedList items={items} />
+              <GeneratedList items={items} onClick={() => onClick()} />
 
             </div>
           </div>
